@@ -1,6 +1,7 @@
-{:paths ["src"]
+{:paths ["src" "resources"]
  :deps
  {ring/ring {:mvn/version "1.8.0"},
   compojure/compojure {:mvn/version "1.6.1"}
   ring/ring-defaults {:mvn/version "0.3.2"}
-  ring/ring-jetty-adapter {:mvn/version "1.8.0"}}}
+  ring/ring-jetty-adapter {:mvn/version "1.8.0"}
+  selmer {:mvn/version "1.12.19"}}}

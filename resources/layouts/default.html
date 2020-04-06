@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <title>User Manager</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/styles.css" />
+    </head>
+    <body>
+
+        <div id="container">
+
+	          <h1>User Manager</h1>
+
+	          <ul class="nav horizontal clear">
+		            <li><a href="/">Home</a></li>
+		            <li><a href="/user/list" title="View the list of users">Users</a></li>
+		            <li><a href="/user/form" title="Fill out form to add new user">Add User</a></li>
+		            <li><a href="/reset" title="Resets change tracking">Reset</a></li>
+	          </ul>
+
+	          <br />
+
+	          <div id="primary">{{body}}</div>
+
+        </div>
+        <div class="font: smaller;">
+            You have made {{changes}} change(s) since the last reset!
+        </div>
+    </body>
+</html>
