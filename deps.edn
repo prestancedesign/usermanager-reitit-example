@@ -1,0 +1,6 @@
+{:paths ["src"]
+ :deps
+ {ring/ring {:mvn/version "1.8.0"},
+  compojure/compojure {:mvn/version "1.6.1"}
+  ring/ring-defaults {:mvn/version "0.3.2"}
+  ring/ring-jetty-adapter {:mvn/version "1.8.0"}}}
