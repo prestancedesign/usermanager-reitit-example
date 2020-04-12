@@ -4,7 +4,8 @@
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.util.response :as resp]
-            [usermanager.controllers.user :as user-ctl]))
+            [usermanager.controllers.user :as user-ctl]
+            [mount.core :as mount :refer [defstate]]))
 
 (defn my-middleware
   "This middleware runs for every request and can execute before/after logic.
@@ -20,12 +21,19 @@
 
 (defroutes app-routes
   (GET "/" [] (my-middleware #'user-ctl/default))
-  (GET "/user/list" [] "<p>La liste des utilisateurs</p>")
+  (GET "/user/list" [] (my-middleware #'user-ctl/get-users))
+  (GET "/user/form" [] (my-middleware #'user-ctl/edit))
   (resources "/")
-  (not-found "404: Page not found"))
+  (not-found "Error 404: Page not found"))
 
 (def app (wrap-defaults #'app-routes site-defaults))
 
-(defn -main []
+(defn- start-server []
   (run-jetty #'app-routes {:port 3000
                            :join? false}))
+
+(defstate server :start (start-server)
+                 :stop (.stop server))
+
+(defn -main []
+  (mount/start))

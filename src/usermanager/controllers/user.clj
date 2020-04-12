@@ -1,6 +1,8 @@
 (ns usermanager.controllers.user
   (:require [ring.util.response :as resp]
-            [selmer.parser :as tmpl]))
+            [selmer.parser :as tmpl]
+            [next.jdbc.sql :as sql]
+            [usermanager.model.user-manager :as model]))
 
 (def ^:private changes (atom 0))
 
@@ -16,3 +18,17 @@
   (assoc-in req [:params :message]
             (str "Bienvenu sur la démo du gestionnaire d'utilisateurs!"
                  "Ce site utilise simplement Compojure, Ring et Selmer")))
+
+(defn get-users
+  "Render the list view with all the users in the addressbook."
+  [req]
+  (let [users (model/get-users model/conn)]
+    (-> req
+        (assoc-in [:params :users] users)
+        (assoc :application/view "list"))))
+
+(defn edit [req]
+  (let [users (model/get-users model/conn)]
+    (-> req
+        (assoc-in [:params :users] users)
+        (assoc :application/view "form"))))
