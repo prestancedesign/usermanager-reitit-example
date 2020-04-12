@@ -28,7 +28,11 @@
         (assoc :application/view "list"))))
 
 (defn edit [req]
-  (let [users (model/get-users model/conn)]
+  (let [db model/conn
+        user (when-let [id (get-in req [:params :id])]
+                 (model/get-user-by-id db id))]
     (-> req
-        (assoc-in [:params :users] users)
+        (update :params assoc
+                :user user
+                :departments (model/get-departements db))
         (assoc :application/view "form"))))

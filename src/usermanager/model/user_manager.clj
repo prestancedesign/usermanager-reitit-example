@@ -80,3 +80,9 @@ select a.*, d.name
  join department d on a.department_id = d.id
  order by a.last_name, a.first_name
 "]))
+
+(defn get-user-by-id [db id]
+  (sql/get-by-id db :addressbook id))
+
+(defn get-departements [db]
+  (sql/query db ["select * from department order by name"]))

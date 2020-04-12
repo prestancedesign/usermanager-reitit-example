@@ -1,5 +1,6 @@
 (ns usermanager.main
   (:require [compojure.core :refer [defroutes GET]]
+            [compojure.coercions :refer [as-int]]
             [compojure.route :refer [not-found resources]]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
@@ -23,6 +24,7 @@
   (GET "/" [] (my-middleware #'user-ctl/default))
   (GET "/user/list" [] (my-middleware #'user-ctl/get-users))
   (GET "/user/form" [] (my-middleware #'user-ctl/edit))
+  (GET "/user/form/:id{[0-9]+}" [id :<< as-int] (my-middleware #'user-ctl/edit))
   (resources "/")
   (not-found "Error 404: Page not found"))
 
