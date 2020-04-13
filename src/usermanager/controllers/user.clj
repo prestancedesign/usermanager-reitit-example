@@ -36,3 +36,16 @@
                 :user user
                 :departments (model/get-departements db))
         (assoc :application/view "form"))))
+
+(defn save [req]
+  (swap! changes inc)
+  (-> req
+      :params
+      (select-keys [:id :first_name :last_name :email :department_id])
+      (update :id #(some-> % not-empty Long/parseLong))
+      (update :department_id #(some-> % not-empty Long/parseLong))
+      (->> (reduce-kv (fn [m k v] (assoc! m (keyword "addressbook" (name k)) v))
+                      (transient {}))
+          (persistent!)
+          (model/save-user model/conn)))
+  (resp/redirect "/user/list"))

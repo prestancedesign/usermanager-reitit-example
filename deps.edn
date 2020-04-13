@@ -1,9 +1,9 @@
 {:paths ["src" "resources"]
  :deps
- {ring/ring {:mvn/version "1.8.0"},
-  compojure/compojure {:mvn/version "1.6.1"}
+ {ring/ring-core {:mvn/version "1.8.0"},
   ring/ring-defaults {:mvn/version "0.3.2"}
   ring/ring-jetty-adapter {:mvn/version "1.8.0"}
+  compojure/compojure {:mvn/version "1.6.1"}
   selmer {:mvn/version "1.12.19"}
   mount {:mvn/version "0.1.16"}
   seancorfield/next.jdbc {:mvn/version "1.0.409"}

@@ -86,3 +86,12 @@ select a.*, d.name
 
 (defn get-departements [db]
   (sql/query db ["select * from department order by name"]))
+
+(defn save-user [db user]
+  (let [id (:addressbook/id user)]
+    (if (and id (not (zero? id)))
+      (sql/update! db :addressbook
+                   (dissoc user :addressbook/id)
+                   {:id id})
+      (sql/insert! db :addressbook
+                   (dissoc user :addressbook/id)))))
