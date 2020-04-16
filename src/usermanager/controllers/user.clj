@@ -14,10 +14,15 @@
                                          (assoc data :body [:safe html])))
         (resp/content-type "text/html"))))
 
+(defn reset-changes
+  [req]
+  (reset! changes 0)
+  (assoc-in req [:params :message] "The change tracker has been reset."))
+
 (defn default [req]
   (assoc-in req [:params :message]
-            (str "Bienvenu sur la démo du gestionnaire d'utilisateurs!"
-                 "Ce site utilise simplement Compojure, Ring et Selmer")))
+            (str "Welcome to the User Manager application demo! "
+                 "This uses just Reitit, Ring, and Selmer.")))
 
 (defn get-users
   "Render the list view with all the users in the addressbook."
@@ -29,8 +34,8 @@
 
 (defn edit [req]
   (let [db model/conn
-        user (when-let [id (get-in req [:params :id])]
-                 (model/get-user-by-id db id))]
+        user (when-let [id (get-in req [:path-params :id])]
+               (model/get-user-by-id db id))]
     (-> req
         (update :params assoc
                 :user user
@@ -46,6 +51,12 @@
       (update :department_id #(some-> % not-empty Long/parseLong))
       (->> (reduce-kv (fn [m k v] (assoc! m (keyword "addressbook" (name k)) v))
                       (transient {}))
-          (persistent!)
-          (model/save-user model/conn)))
+           (persistent!)
+           (model/save-user model/conn)))
+  (resp/redirect "/user/list"))
+
+(defn delete-by-id [req]
+  (swap! changes inc)
+  (model/delete-user-by-id model/conn
+                           (get-in req [:path-params :id]))
   (resp/redirect "/user/list"))

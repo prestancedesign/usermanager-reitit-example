@@ -1,12 +1,11 @@
 (ns usermanager.main
-  (:require [compojure.core :refer [defroutes GET POST]]
-            [compojure.coercions :refer [as-int]]
-            [compojure.route :refer [not-found resources]]
+  (:require [mount.core :as mount :refer [defstate]]
+            [reitit.ring :as ring]
+            [reitit.ring.middleware.parameters :as parameters]
             [ring.adapter.jetty :refer [run-jetty]]
-            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.util.response :as resp]
             [usermanager.controllers.user :as user-ctl]
-            [mount.core :as mount :refer [defstate]]))
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]))
 
 (defn my-middleware
   "This middleware runs for every request and can execute before/after logic.
@@ -20,20 +19,31 @@
         resp
         (user-ctl/render-page resp)))))
 
-(defroutes app-routes
-  (GET "/" [] (my-middleware #'user-ctl/default))
-  (GET "/user/list" [] (my-middleware #'user-ctl/get-users))
-  (GET "/user/form" [] (my-middleware #'user-ctl/edit))
-  (GET "/user/form/:id{[0-9]+}" [id :<< as-int] (my-middleware #'user-ctl/edit))
-  (POST "/user/save" [] (my-middleware #'user-ctl/save))
-  (resources "/")
-  (not-found "Error 404: Page not found"))
-
-(def app (wrap-defaults #'app-routes (assoc-in site-defaults [:security :anti-forgery] false)))
+(def app-routes
+  (ring/ring-handler
+   (ring/router
+    [["/" {:handler #'user-ctl/default}]
+     ["/reset" {:handler #'user-ctl/reset-changes}]
+     ["/user"
+      ["/list" {:handler #'user-ctl/get-users}]
+      ["/form" {:handler #'user-ctl/edit}]
+      ["/form/:id" {:get {:parameters {:path {:id int?}}}
+                    :handler #'user-ctl/edit}]
+      ["/save" {:post {:handler #'user-ctl/save}}]
+      ["/delete/:id" {:get {:parameters {:path {:id int?}}}
+                      :handler #'user-ctl/delete-by-id}]]]
+    {:data {:middleware [my-middleware
+                         parameters/parameters-middleware
+                         wrap-keyword-params]}})
+   (ring/routes
+    (ring/create-resource-handler
+     {:path "/"})
+    (ring/create-default-handler
+     {:not-found (constantly {:status 404 :body "Not found"})}))))
 
 (defn- start-server []
-  (run-jetty #'app {:port 3000
-                    :join? false}))
+  (run-jetty #'app-routes {:port 3000
+                           :join? false}))
 
 (defstate server :start (start-server)
                  :stop (.stop server))

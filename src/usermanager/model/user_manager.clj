@@ -95,3 +95,6 @@ select a.*, d.name
                    {:id id})
       (sql/insert! db :addressbook
                    (dissoc user :addressbook/id)))))
+
+(defn delete-user-by-id [db id]
+  (sql/delete! db :addressbook {:id id}))
