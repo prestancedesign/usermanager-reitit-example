@@ -1,5 +1,5 @@
 (ns usermanager.main
-  (:require [mount.core :as mount :refer [defstate]]
+  (:require [integrant.core :as ig]
             [reitit.ring :as ring]
             [reitit.ring.middleware.parameters :as parameters]
             [ring.adapter.jetty :refer [run-jetty]]
@@ -19,7 +19,7 @@
         resp
         (user-ctl/render-page resp)))))
 
-(def app-routes
+(def app
   (ring/ring-handler
    (ring/router
     [["/" {:handler #'user-ctl/default}]
@@ -41,12 +41,21 @@
     (ring/create-default-handler
      {:not-found (constantly {:status 404 :body "Not found"})}))))
 
-(defn- start-server []
-  (run-jetty #'app-routes {:port 3000
-                           :join? false}))
+(def config
+  {:adapter/jetty {:port 3000 :handler (ig/ref :handler/run-app)}
+   :handler/run-app app})
 
-(defstate server :start (start-server)
-                 :stop (.stop server))
+(defmethod ig/init-key :adapter/jetty [_ {:keys [handler] :as opts}]
+  (run-jetty handler (-> opts (dissoc handler) (assoc :join? false))))
+
+(defmethod ig/halt-key! :adapter/jetty [_ server]
+  (.stop server))
+
+(defmethod ig/init-key :handler/run-app [_ _]
+  app)
+
+(def system
+  (ig/init config))
 
 (defn -main []
-  (mount/start))
+  system)

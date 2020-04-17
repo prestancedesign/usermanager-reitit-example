@@ -3,8 +3,8 @@
  {ring/ring-core {:mvn/version "1.8.0"},
   ring/ring-jetty-adapter {:mvn/version "1.8.0"}
   selmer {:mvn/version "1.12.19"}
-  mount {:mvn/version "0.1.16"}
   seancorfield/next.jdbc {:mvn/version "1.0.409"}
   org.xerial/sqlite-jdbc {:mvn/version "3.30.1"}
   metosin/reitit-ring {:mvn/version "0.4.2"}
-  metosin/reitit-middleware {:mvn/version "0.4.2"}}}
+  metosin/reitit-middleware {:mvn/version "0.4.2"}
+  integrant {:mvn/version "0.8.0"}}}
