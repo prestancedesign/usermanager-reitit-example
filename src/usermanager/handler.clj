@@ -1,8 +1,6 @@
-(ns usermanager.main
-  (:require [integrant.core :as ig]
-            [reitit.ring :as ring]
+(ns usermanager.handler
+  (:require [reitit.ring :as ring]
             [reitit.ring.middleware.parameters :as parameters]
-            [ring.adapter.jetty :refer [run-jetty]]
             [ring.util.response :as resp]
             [usermanager.controllers.user :as user-ctl]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]))
@@ -19,7 +17,14 @@
         resp
         (user-ctl/render-page resp)))))
 
-(def app
+(def middleware-db
+  {:name ::db
+   :compile (fn [{:keys [db]} _]
+              (fn [handler]
+                (fn [req]
+                  (handler (assoc req :db db)))))})
+
+(defn app [db]
   (ring/ring-handler
    (ring/router
     [["/" {:handler #'user-ctl/default}]
@@ -32,30 +37,13 @@
       ["/save" {:post {:handler #'user-ctl/save}}]
       ["/delete/:id" {:get {:parameters {:path {:id int?}}}
                       :handler #'user-ctl/delete-by-id}]]]
-    {:data {:middleware [my-middleware
+    {:data {:db db
+            :middleware [my-middleware
                          parameters/parameters-middleware
-                         wrap-keyword-params]}})
+                         wrap-keyword-params
+                         middleware-db]}})
    (ring/routes
     (ring/create-resource-handler
      {:path "/"})
     (ring/create-default-handler
      {:not-found (constantly {:status 404 :body "Not found"})}))))
-
-(def config
-  {:adapter/jetty {:port 3000 :handler (ig/ref :handler/run-app)}
-   :handler/run-app app})
-
-(defmethod ig/init-key :adapter/jetty [_ {:keys [handler] :as opts}]
-  (run-jetty handler (-> opts (dissoc handler) (assoc :join? false))))
-
-(defmethod ig/halt-key! :adapter/jetty [_ server]
-  (.stop server))
-
-(defmethod ig/init-key :handler/run-app [_ _]
-  app)
-
-(def system
-  (ig/init config))
-
-(defn -main []
-  system)

@@ -1,11 +1,6 @@
 (ns usermanager.model.user-manager
-  (:require [mount.core :as mount :refer [defstate]]
-            [next.jdbc :as jdbc]
+  (:require [next.jdbc :as jdbc]
             [next.jdbc.sql :as sql]))
-
-(def ^:private my-db
-  "SQLite database connection spec."
-  {:dbtype "sqlite" :dbname "usermanager_db"})
 
 (def ^:private departments
   "List of departments."
@@ -16,7 +11,7 @@
   [{:first_name "Michael" :last_name "Salihi"
     :email "admin@prestance-informatique.fr" :department_id 4}])
 
-(defn- populate
+(defn populate
   "Called at application startup. Attempts to create the
   database table and populate it. Takes no action if the
   database table already exists."
@@ -57,13 +52,6 @@ create table addressbook (
       (catch Exception e
         (println "Exception:" (ex-message e))
         (println "Looks like the database is already setup?")))))
-
-(defn- start-db [db-spec]
-  (let [conn (jdbc/get-datasource db-spec)]
-    (populate conn (:dbtype db-spec))
-    conn))
-
-(defstate conn :start (start-db my-db))
 
 (defn get-users
   "Return all available users, sorted by name.

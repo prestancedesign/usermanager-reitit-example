@@ -1,7 +1,6 @@
 (ns usermanager.controllers.user
   (:require [ring.util.response :as resp]
             [selmer.parser :as tmpl]
-            [next.jdbc.sql :as sql]
             [usermanager.model.user-manager :as model]))
 
 (def ^:private changes (atom 0))
@@ -27,13 +26,13 @@
 (defn get-users
   "Render the list view with all the users in the addressbook."
   [req]
-  (let [users (model/get-users model/conn)]
+  (let [users (model/get-users (:db req))]
     (-> req
         (assoc-in [:params :users] users)
         (assoc :application/view "list"))))
 
 (defn edit [req]
-  (let [db model/conn
+  (let [db (:db req)
         user (when-let [id (get-in req [:path-params :id])]
                (model/get-user-by-id db id))]
     (-> req
@@ -52,11 +51,11 @@
       (->> (reduce-kv (fn [m k v] (assoc! m (keyword "addressbook" (name k)) v))
                       (transient {}))
            (persistent!)
-           (model/save-user model/conn)))
+           (model/save-user (:db req))))
   (resp/redirect "/user/list"))
 
 (defn delete-by-id [req]
   (swap! changes inc)
-  (model/delete-user-by-id model/conn
+  (model/delete-user-by-id (:db req)
                            (get-in req [:path-params :id]))
   (resp/redirect "/user/list"))
