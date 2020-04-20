@@ -10,4 +10,5 @@
   integrant {:mvn/version "0.8.0"}
   integrant/repl {:mvn/version "0.3.1"}}
  :aliases
- {:server {:main-opts ["-m" "usermanager.system"]}}}
+ {:dev {:extra-paths ["dev"]}
+  :server {:main-opts ["-m" "usermanager.system"]}}}
