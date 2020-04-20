@@ -7,4 +7,7 @@
   org.xerial/sqlite-jdbc {:mvn/version "3.30.1"}
   metosin/reitit-ring {:mvn/version "0.4.2"}
   metosin/reitit-middleware {:mvn/version "0.4.2"}
-  integrant {:mvn/version "0.8.0"}}}
+  integrant {:mvn/version "0.8.0"}
+  integrant/repl {:mvn/version "0.3.1"}}
+ :aliases
+ {:server {:main-opts ["-m" "usermanager.system"]}}}
