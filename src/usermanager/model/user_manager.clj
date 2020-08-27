@@ -1,4 +1,9 @@
+;; copyright (c) 2019 Sean Corfield, all rights reserved
+
 (ns usermanager.model.user-manager
+  "The model for the application. This is where the persistence happens,
+  although in a larger application, this would probably contain just the
+  business logic and the persistence would be in a separate namespace."
   (:require [next.jdbc :as jdbc]
             [next.jdbc.sql :as sql]))
 
@@ -69,13 +74,20 @@ select a.*, d.name
  order by a.last_name, a.first_name
 "]))
 
-(defn get-user-by-id [db id]
+(defn get-user-by-id
+  "Given a user ID, return the user record."
+  [db id]
   (sql/get-by-id db :addressbook id))
 
-(defn get-departements [db]
+(defn get-departements
+  "Return all available department records (in order)."
+  [db]
   (sql/query db ["select * from department order by name"]))
 
-(defn save-user [db user]
+(defn save-user
+  "Save a user record. If ID is present and not zero, then
+  this is an update operation, otherwise it's an insert."
+  [db user]
   (let [id (:addressbook/id user)]
     (if (and id (not (zero? id)))
       (sql/update! db :addressbook
@@ -84,5 +96,7 @@ select a.*, d.name
       (sql/insert! db :addressbook
                    (dissoc user :addressbook/id)))))
 
-(defn delete-user-by-id [db id]
+(defn delete-user-by-id
+  "Given a user ID, delete that user."
+  [db id]
   (sql/delete! db :addressbook {:id id}))
