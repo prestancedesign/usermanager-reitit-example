@@ -1,0 +1,39 @@
+#+title: Example Web Application in Clojure
+
+This repo is a simple web application using Integrant, Ring, Reitit, and Selmer connected to a local SQLite database.
+
+For learning purpose, I redid from scratch the very useful [[https://github.com/seancorfield/usermanager-example][Sean Corfield usermanager repo]] and decided to move some libraries to learn them too in the process.
+- [[https://github.com/weavejester/compojure][Compojure]] -> [[https://github.com/metosin/reitit][Reitit]]
+- [[https://github.com/stuartsierra/component][Component]] -> [[https://github.com/weavejester/integrant][Integrant]]
+
+* Requirements
+
+  This example assumes that you have the [[https://clojure.org/guides/deps_and_cli][Clojure CLI]] installed, and provides a =deps.edn= file.
+
+  Clojure 1.10 (or later) is required. The "model" of this example app uses namespace-qualified keys in hash maps. It uses [next.jdbc](https://cljdoc.org/d/seancorfield/next.jdbc) -- the "next generation" JDBC library for Clojure -- which produces namespace-qualified hash maps from result sets.
+
+* Usage
+** Run the Application
+   Clone the repo, =cd= into it, then follow below to /Run the Application/ or /Run the application/ in REPL.
+   You can launch the application by directly calling the namespace which contains the =-main= function in an terminal
+   #+begin_src sh
+     $ clj -m usermanager.system
+   #+end_src
+   or more conveniently, using an alias configured in =deps.edn= file.
+   #+begin_src sh
+     $ clj -A:server
+   #+end_src
+** Run the Application in REPL
+   #+begin_src sh
+     $ clj -A:dev
+   #+end_src
+   Once REPL starts, run the system:
+   #+begin_src clojure
+     user=> (go)
+   #+end_src
+
+* License & Copyright
+
+  Copyright (c) 2015-2020 Sean Corfield / Michaël SALIHI.
+
+  Distributed under the Apache Source License 2.0.
