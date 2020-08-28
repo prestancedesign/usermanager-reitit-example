@@ -10,7 +10,7 @@ For learning purpose, I redid from scratch the very useful [[https://github.com/
 
   This example assumes that you have the [[https://clojure.org/guides/deps_and_cli][Clojure CLI]] installed, and provides a =deps.edn= file.
 
-  Clojure 1.10 (or later) is required. The "model" of this example app uses namespace-qualified keys in hash maps. It uses [next.jdbc](https://cljdoc.org/d/seancorfield/next.jdbc) -- the "next generation" JDBC library for Clojure -- which produces namespace-qualified hash maps from result sets.
+  Clojure 1.10 (or later) is required. The "model" of this example app uses namespace-qualified keys in hash maps. It uses [[https://cljdoc.org/d/seancorfield/next.jdbc][next.jdbc]] -- the "next generation" JDBC library for Clojure -- which produces namespace-qualified hash maps from result sets.
 
 * Usage
 ** Run the Application
