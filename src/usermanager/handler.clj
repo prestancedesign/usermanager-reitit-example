@@ -27,16 +27,16 @@
 (defn app [db]
   (ring/ring-handler
    (ring/router
-    [["/" {:handler #'user-ctl/default}]
-     ["/reset" {:handler #'user-ctl/reset-changes}]
+    [["/" {:handler user-ctl/default}]
+     ["/reset" {:handler user-ctl/reset-changes}]
      ["/user"
-      ["/list" {:handler #'user-ctl/get-users}]
-      ["/form" {:handler #'user-ctl/edit}]
+      ["/list" {:handler user-ctl/get-users}]
+      ["/form" {:handler user-ctl/edit}]
       ["/form/:id" {:get {:parameters {:path {:id int?}}}
-                    :handler #'user-ctl/edit}]
-      ["/save" {:post {:handler #'user-ctl/save}}]
+                    :handler user-ctl/edit}]
+      ["/save" {:post {:handler user-ctl/save}}]
       ["/delete/:id" {:get {:parameters {:path {:id int?}}}
-                      :handler #'user-ctl/delete-by-id}]]]
+                      :handler user-ctl/delete-by-id}]]]
     {:data {:db db
             :middleware [my-middleware
                          parameters/parameters-middleware
