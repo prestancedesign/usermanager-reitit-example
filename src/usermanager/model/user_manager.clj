@@ -13,7 +13,9 @@
 
 (def ^:private initial-user-data
   "Seed the database with this data."
-  [{:first_name "Michael" :last_name "Salihi"
+  [{:first_name "Sean" :last_name "Corfield"
+    :email "sean@worldsingles.com" :department_id 4}
+   {:first_name "Michael" :last_name "Salihi"
     :email "admin@prestance-informatique.fr" :department_id 4}])
 
 (defn populate
