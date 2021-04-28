@@ -6,35 +6,35 @@ For learning purpose, I redid from scratch the very useful [[https://github.com/
 - [[https://github.com/weavejester/compojure][Compojure]] -> [[https://github.com/metosin/reitit][Reitit]]
 - [[https://github.com/stuartsierra/component][Component]] -> [[https://github.com/weavejester/integrant][Integrant]]
 
-* Requirements
+** Requirements
 
-  This example assumes that you have the [[https://clojure.org/guides/deps_and_cli][Clojure CLI]] installed, and provides a =deps.edn= file.
+   This example assumes that you have the [[https://clojure.org/guides/deps_and_cli][Clojure CLI]] installed, and provides a =deps.edn= file.
 
-  Clojure 1.10 (or later) is required. The "model" of this example app uses namespace-qualified keys in hash maps. It uses [[https://cljdoc.org/d/seancorfield/next.jdbc][next.jdbc]] -- the "next generation" JDBC library for Clojure -- which produces namespace-qualified hash maps from result sets.
+   Clojure 1.10 (or later) is required. The "model" of this example app uses namespace-qualified keys in hash maps. It uses [[https://cljdoc.org/d/seancorfield/next.jdbc][next.jdbc]] -- the "next generation" JDBC library for Clojure -- which produces namespace-qualified hash maps from result sets.
 
-* Usage
-** Run the Application
-   Clone the repo, =cd= into it, then follow below to /Run the Application/ or /Run the application/ in REPL.
-   You can launch the application by directly calling the namespace which contains the =-main= function in an terminal
-   #+begin_src sh
-     $ clj -m usermanager.system
-   #+end_src
-   or more conveniently, using an alias configured in =deps.edn= file.
-   #+begin_src sh
-     $ clj -A:server
-   #+end_src
-   Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
-** Run the Application in REPL
-   #+begin_src sh
-     $ clj -A:dev
-   #+end_src
-   Once REPL starts, run the system:
-   #+begin_src clojure
-     user=> (go)
-   #+end_src
-   Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
-* License & Copyright
+** Usage
+*** Run the Application
+    Clone the repo, =cd= into it, then follow below to /Run the Application/ or /Run the application/ in REPL.
+    You can launch the application by directly calling the namespace which contains the =-main= function in an terminal
+    #+begin_src sh
+      $ clj -m usermanager.system
+    #+end_src
+    or more conveniently, using an alias configured in =deps.edn= file.
+    #+begin_src sh
+      $ clj -A:server
+    #+end_src
+    Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
+*** Run the Application in REPL
+    #+begin_src sh
+      $ clj -A:dev
+    #+end_src
+    Once REPL starts, run the system:
+    #+begin_src clojure
+      user=> (go)
+    #+end_src
+    Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
+** License & Copyright
 
-  Copyright (c) 2015-2020 Sean Corfield / Michaël SALIHI.
+   Copyright (c) 2015-2020 Sean Corfield / Michaël SALIHI.
 
-  Distributed under the Apache Source License 2.0.
+   Distributed under the Apache Source License 2.0.
