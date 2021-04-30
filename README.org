@@ -2,9 +2,11 @@
 
 This repo is a simple web application using Integrant, Ring, Reitit, and Selmer connected to a local SQLite database.
 
-For learning purpose, I redid from scratch the very useful [[https://github.com/seancorfield/usermanager-example][Sean Corfield usermanager repo]] and decided to move some libraries to learn them too in the process.
+For learning purpose, I redid from scratch the very useful [[https://github.com/seancorfield/usermanager-example][Sean Corfield's usermanager repo]] and decided to move some libraries to learn them too in the process.
 - [[https://github.com/weavejester/compojure][Compojure]] -> [[https://github.com/metosin/reitit][Reitit]]
 - [[https://github.com/stuartsierra/component][Component]] -> [[https://github.com/weavejester/integrant][Integrant]]
+
+A Single Page App version that use [[https://github.com/prestancedesign/inertia-clojure][Inertia-clojure]] library can be found [[https://github.com/prestancedesign/reagent-inertia-reitit-integrant-fullstack][here]].
 
 ** Requirements
 
