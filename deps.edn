@@ -2,13 +2,19 @@
  :deps
  {ring/ring-core {:mvn/version "1.9.5"},
   ring/ring-jetty-adapter {:mvn/version "1.9.5"}
-  selmer/selmer {:mvn/version "1.12.53"}
-  seancorfield/next.jdbc {:mvn/version "1.2.659"}
-  org.xerial/sqlite-jdbc {:mvn/version "3.36.0.3"}
   metosin/reitit-ring {:mvn/version "0.5.18"}
   metosin/reitit-middleware {:mvn/version "0.5.18"}
-  integrant/integrant {:mvn/version "0.8.0"}}
+  integrant/integrant {:mvn/version "0.8.0"}
+
+  seancorfield/next.jdbc {:mvn/version "1.2.659"}
+  org.xerial/sqlite-jdbc {:mvn/version "3.36.0.3"}
+
+  selmer/selmer {:mvn/version "1.12.53"}}
+
  :aliases
  {:dev {:extra-paths ["dev"]
         :extra-deps {integrant/repl {:mvn/version "0.3.2"}}}
-  :server {:main-opts ["-m" "usermanager.system"]}}}
+  :server {:main-opts ["-m" "usermanager.system"]}
+  :build {:replace-deps {io.github.seancorfield/build-clj
+                         {:git/tag "v0.8.0" :git/sha "9bd8b8a"}}
+          :ns-default build}}}

@@ -3,7 +3,8 @@
             [next.jdbc :as jdbc]
             [ring.adapter.jetty :refer [run-jetty]]
             [usermanager.handler :as handler]
-            [usermanager.model.user-manager :refer [populate]]))
+            [usermanager.model.user-manager :refer [populate]])
+  (:gen-class))
 
 (def config
   {:adapter/jetty {:handler (ig/ref :handler/run-app) :port 3000}

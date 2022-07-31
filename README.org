@@ -35,8 +35,47 @@ A Single Page App version that use [[https://github.com/prestancedesign/inertia-
       user=> (go)
     #+end_src
     Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
+
+** Build an Uberjar
+   For production deployment, you typically want to build an "uberjar" -- a =.jar= file that contains Clojure itself and all of the code from your application and its dependencies, so that you can run it with the =java -jar= command.
+
+   The =build.clj= file -- mentioned above -- contains a =ci= task that:
+   - cleans up the `target` folder
+   - compiles the application (sometimes called "AOT compilation")
+   - produces a standalone `.jar` file
+   #+begin_src sh
+     clojure -T:build ci
+   #+end_src
+
+   You should see something like this:
+   #+begin_src sh
+     Cleaning target...
+
+     Skipping pom.xml because :lib and/or :version were omitted...
+     Copying src, resources...
+     Compiling system.main...
+     2022-05-25 18:20:13.069:INFO::main: Logging initialized @3981ms to org.eclipse.jetty.util.log.StdErrLog
+     Building uberjar target/reitit-example-standalone.jar...
+   #+end_src
+
+   The =target= folder will be created if it doesn't exist and it will include a =classes= folder containing all of the compiled Clojure source code from the =usermanager= application /and all of its dependencies/ including Clojure itself:
+   #+begin_src sh
+     $ ls target/classes/
+     cheshire  clojure  clout  com  compojure  crypto  instaparse  json_html  layouts  medley  next  public  ring  selmer  usermanager  views
+   #+end_src
+
+   It will also include the standalone =.jar= file which you can run like this:
+
+   #+begin_src sh
+     java -jar target/example-standalone.jar
+   #+end_src
+
+   This should behave the same as the /Run the Application/ example above.
+
+   This JAR file can be deployed to any server that have Java installed and run with no other external dependencies or files.
+
 ** License & Copyright
 
-   Copyright (c) 2015-2020 Sean Corfield / Michaël SALIHI.
+   Copyright (c) 2015-2022 Sean Corfield / Michaël SALIHI.
 
    Distributed under the Apache Source License 2.0.
