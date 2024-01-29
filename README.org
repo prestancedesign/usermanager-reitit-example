@@ -23,12 +23,12 @@ A Single Page App version that use [[https://github.com/prestancedesign/inertia-
     #+end_src
     or more conveniently, using an alias configured in =deps.edn= file.
     #+begin_src sh
-      $ clj -A:server
+      $ clj -M:server
     #+end_src
     Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
 *** Run the Application in REPL
     #+begin_src sh
-      $ clj -A:dev
+      $ clj -M:dev
     #+end_src
     Once REPL starts, run the system:
     #+begin_src clojure
