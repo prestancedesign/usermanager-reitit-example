@@ -12,7 +12,7 @@
    :database.sql/connection {:dbtype "sqlite" :dbname "usermanager_db"}})
 
 (defmethod ig/init-key :adapter/jetty [_ {:keys [handler] :as opts}]
-  (run-jetty handler (-> opts (dissoc handler) (assoc :join? false))))
+  (run-jetty handler (-> opts (dissoc :handler) (assoc :join? false))))
 
 (defmethod ig/init-key :handler/run-app [_ {:keys [db]}]
   (handler/app db))
