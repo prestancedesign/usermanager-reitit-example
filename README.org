@@ -19,7 +19,7 @@ A Single Page App version that use [[https://github.com/prestancedesign/inertia-
     Clone the repo, =cd= into it, then follow below to /Run the Application/ or /Run the application/ in REPL.
     You can launch the application by directly calling the namespace which contains the =-main= function in an terminal
     #+begin_src sh
-      $ clj -m usermanager.system
+      $ clj -M -m usermanager.system
     #+end_src
     or more conveniently, using an alias configured in =deps.edn= file.
     #+begin_src sh
